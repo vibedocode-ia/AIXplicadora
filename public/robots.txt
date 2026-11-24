@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://aixplicadora.vibedocode.pro/sitemap.xml
