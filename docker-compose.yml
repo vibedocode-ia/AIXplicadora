@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aixplicadora-app
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - SUPER_ADMIN_USERNAME=${SUPER_ADMIN_USERNAME:-VibeDoCode}
+      - SUPER_ADMIN_PASSWORD=${SUPER_ADMIN_PASSWORD:-Entrar2026@}
+      - OMNIROUTER_BASE_URL=${OMNIROUTER_BASE_URL:-https://omnirouter.vibedocode.pro/v1}
+      - OMNIROUTER_API_KEY=${OMNIROUTER_API_KEY:-sk-9a2eac18b294a957-2822f7-3bc4ab7c}
+    ports:
+      - "3000:3000"
+    networks:
+      - coolify
+
+networks:
+  coolify:
+    external: true

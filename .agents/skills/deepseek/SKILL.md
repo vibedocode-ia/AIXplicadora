@@ -1,0 +1,17 @@
+---
+name: deepseek
+description: Consulta o DeepSeek Reasoner (R1) para resolver problemas complexos e algoritmos avançados.
+---
+
+# /deepseek
+
+Este comando consulta o DeepSeek Reasoner (R1) para resolver problemas complexos.
+
+## Fluxo de Execução
+1. Sofia recebe o prompt.
+2. // turbo
+   Executa `python .agent/skills/deepseek-expert/scripts/call_deepseek.py "<prompt>"`
+3. Formata o resultado mostrando o raciocínio e a resposta final.
+
+## Exemplo de Uso
+`/deepseek "Crie um algoritmo de ordenação complexo"`

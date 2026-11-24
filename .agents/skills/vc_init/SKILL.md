@@ -1,0 +1,67 @@
+---
+name: vc_init
+description: Comando inicial de setup de projeto. Inicia Entrevista Socrática para entender contexto, valida PRDs existentes e recomenda a próxima LLM para a fase de especificação.
+---
+
+# /vc-init — Inicialização de Projeto (Master Orchestrator Mode)
+
+$ARGUMENTS
+
+---
+
+## 🎯 Objetivo
+
+Estes passos controlam a macro-orquestração quando o usuário começa uma nova rodada de trabalho, seja em um projeto novo (do zero) ou o design de uma feature pesada em projeto legado. Seu papel é fazer as perguntas certas e pavimentar o caminho tecnológico.
+
+---
+
+## Task
+
+### Passo 1: Leitura de Contexto Ativo
+
+Ao invocar `/vc_init`, primeiro identifique secretamente o ambiente:
+1. **O projeto já existe?** Verifique rapidamente pastas (se tem components/, api/, migrations) via `explorer-agent` ou se a pasta raiz apenas possui arquivos base.
+2. **Contexto herdado**: O usuário já postou algo pós `/vc_init`?
+
+### Passo 2: Entrevista Socrática do Mestre
+
+Ative o `orchestrator` como um arquiteto senior receptivo. Mande a seguinte saudação e faça as perguntas para o escopo inicial. Pare após realizar estas perguntas!
+
+```markdown
+👋 Bem-vindo ao **VibeDoCode Evolution**. Sistemas falham sem plano de voo, então deixe-me absorver a sua necessidade atual antes de engatar a quinta marcha.
+
+Vi que estamos lidando com um [Projeto do Zero / Adição em Projeto Existente]. Responda o que puder:
+
+1. **Sobre o Norte**: Qual a premissa fundamental e o objetivo final que precisamos resolver nessa entrega? Qual a dor raiz?
+2. **Documentação Restrita**: Você já possui um PRD (Product Requirements Document), Wireframe de UI, ou transcrição detalhando as funcionalidades? Se sim, me envie o conteúdo agora.
+3. **Plano de Restrições**: Há alguma restrição tecnológica clara? (Ex: "Não usar ORM", "Precisa rodar em 60fps na Web", "Foco 100% mobile", "Mobile First", etc).
+```
+
+### Passo 3: Avaliação Pós-Respostas & LLM Advisory
+
+Após o usuário responder a entrevista OU "colar" o texto de seu PRD/instruções massivas:
+
+**Obrigatório**:
+1. Faça um resumo ("Entendi. Construiremos X com restrição Y, focado nas funcionalidades do PRD enviado.")
+2. Sugerir o próximo comando prático da esteira VibeDoCode, que quase sempre será acionar o `VC_spec-writer` para gerar a arquitetura. Diga: "Seu próximo passo é invocar `/vc-spec [breve resumo do projeto]`".
+3. **Use a Skill `llm-advisor` ANTES** de terminar sua fala, para guiar a troca de modelo para a fase pesada de especificação.
+
+### Saída Esperada do Passo 3:
+
+```markdown
+✅ Contexto do Projeto internalizado com sucesso! Li seu PRD e escopo.
+
+**🎯 Próximo Passo Sugerido:** 
+Vamos formalizar isso na arquitetura. Por favor, rode:
+`/vc-spec`
+*(Você pode enviar sem contexto adicional, pois já possuo a base necessária).*
+
+---
+🤖 **LLM Recommendation**: Mude a LLM para **[Gemini 3.1 Pro (High)]** para o próximo comando de spec.
+💡 **Motivo**: [A geração de especificação (`/vc-spec`) e divisão em Fases requer raciocínio de longo prazo em toda a arquitetura transversal e alta precisão estendida da Janela de Contexto.]
+```
+
+---
+
+## Como Funciona para o Usuário
+* Digite `/vc_init` e apenas aguarde o "Guia VibeDoCode" atuar, o ajudando e controlando a sua "ansiedade" para que ele não jogue um prompt direto na Vercel e quebre a LLM da infra.

@@ -1,0 +1,56 @@
+---
+name: vc-auto
+description: "Piloto Automático VibeDoCode: Planeja e executa todas as tasks pendentes sequencialmente em um único comando."
+---
+
+# /vc-auto — Piloto Automático
+
+$ARGUMENTS 
+
+---
+
+## 🎯 Objetivo
+
+Eliminar o trabalho manual de rodar `/vc-plan` seguido de `/vc-execute` repetidamente. Este comando ativa o "Auto-Runner Mode", onde o Agente vai identificar **todas as tasks pendentes**, planejar silenciosamente e escrever o código para cada uma delas em sequência.
+
+---
+
+## Task
+
+### Passo 1: Varrer o Diretório de Tasks
+
+O Agente deve listar os arquivos na pasta `tasks/` e identificar todas as tasks que **NÃO estão marcadas como Status: ✅ Concluída**. Apenas adicione à fila de trabalho as tasks que estão pendentes. O parâmetro $ARGUMENTS pode ser usado para filtrar (ex: `/vc-auto v2`). Se vazio, varre tudo que for pendente.
+
+### Passo 2: O Loop de Execução Automática (Auto-Runner)
+
+Para **CADA TASK PENDENTE**, no mesmo turno (ou em interações consecutivas autônomas mantendo o usuário informado em lotes), realize a Fase 3 (Plan) e a Fase 4 (Execute):
+
+1. **Auto-Plan**: Assuma a persona `VC_task-planner`. Busque internamente, entenda a dependência e defina mentalmente (e na modificação rápida do arquivo sumário da task) o que criar/modificar.
+2. **Auto-Execute**: Mude imediatamente para a persona do Agente correto (`VC_component-writer` para frontend, `VC_api-writer` para backend). Escreva o código nos arquivos do projeto.
+3. **Commit da Task**: Aplique os códigos, feche as tags, e reescreva o cabeçalho no arquivo da task para `Status: ✅ Concluída`.
+
+### Passo 3: Feedback Contínuo
+
+Sempre que concluir um "Lote" de tasks, apresente no chat:
+```
+⚙️ Lote Automático Processado:
+✅ Task [nome da task] → Planejada e Implementada
+✅ Task [nome da task] → Planejada e Implementada
+
+O sistema está executando. Não interrompa o fluxo... Rodando a próxima...
+```
+
+*Se houverem muitos arquivos, avance em blocos de 2 ou 3 tasks por vez para evitar timeout da LLM e depois você mesmo deve continuar de onde parou anunciando ao usuário.*
+
+### ⚠️ Regra de Segurança
+
+Mesmo no Piloto Automático, a infraestrutura **não deve destruir** nada sem ler os arquivos existentes via `view_file` primeiro.
+
+---
+
+## Exemplos de Uso
+
+```
+/vc-auto
+/vc-auto v2
+```

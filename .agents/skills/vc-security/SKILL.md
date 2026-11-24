@@ -1,0 +1,81 @@
+---
+name: vc-security
+description: Auditoria e Testes Completos de Segurança VibeDoCode usando o Framework de 15 Estágios Bank-Grade.
+---
+
+# /vc-security — Auditoria Bank-Grade (15 Estágios)
+
+$ARGUMENTS
+
+---
+
+## 🎯 Objetivo
+
+Ativa o agente **Security VibeDoCode v3.0** para auditar o projeto passando pelos 15 estágios do framework Bank-Grade, entregando um score mensurável e um plano de ação priorizado.
+
+---
+
+## Task
+
+### Passo 1: Contexto e Escopo
+
+Se `$ARGUMENTS` for fornecido (ex: `src/app/api`, `auth-module`), a auditoria focará neste escopo.
+Se vazio, audite globalmente com foco em `/src`, configurações e banco.
+
+### Passo 2: Execução em 15 Estágios
+
+O agente `security-vibedocode` deve invocar suas 15 skills sequencialmente:
+
+**Camada 0 — Estratégia de Risco:**
+0. `vc-sec-00-threat-model` — Threat Modeling & Classificação de Dados
+
+**Camada 1 — Fundação Segura:**
+1. `vc-sec-01-sast` — SAST, Linting Estrito e Code Quality
+2. `vc-sec-02-secrets` — Secrets, Envs e Configuração Segura
+3. `vc-sec-03-supply-chain` — Supply Chain & CI/CD Seguro
+
+**Camada 2 — Identidade e Acesso:**
+4. `vc-sec-04-auth` — Autenticação Forte
+5. `vc-sec-05-rbac` — Autorização RBAC/ABAC & Anti-IDOR
+6. `vc-sec-06-rls` — Banco de Dados Selado com RLS
+
+**Camada 3 — Superfície de Ataque:**
+7. `vc-sec-07-sanitization` — Sanitização, Validação e Anti-Injection
+8. `vc-sec-08-uploads` — Uploads, Arquivos e Storage Seguro
+9. `vc-sec-09-infra-edge` — Edge, Headers, CORS e Hardening
+
+**Camada 4 — Proteção Econômica e IA:**
+10. `vc-sec-10-rate-limit` — Rate Limit, Quotas e Denial of Wallet
+11. `vc-sec-11-ai-security` — Segurança de Agentes IA e Tool Use
+
+**Camada 5 — Operação e Resiliência:**
+12. `vc-sec-12-secops` — Logs, Auditoria e Observabilidade
+13. `vc-sec-13-backup` — Backup, Restore e Continuidade
+14. `vc-sec-14-incident-response` — Resposta a Incidentes e Melhoria Contínua
+
+### Passo 3: Relatório Final
+
+Apresentar o **VibeDoCode Security Score (0-100)** com:
+- Score por camada (0-5)
+- Estágios ✅ aprovados vs ❌ reprovados
+- Top 5 vulnerabilidades críticas
+- Plano de correção priorizado por severidade
+
+### Passo 4: Interrupções Obrigatórias
+
+Se encontrar qualquer item abaixo, INTERROMPA o fluxo com nível **CRÍTICO**:
+- Secrets/chaves hardcoded no código
+- `service_role` key exposta no client-side
+- RLS desabilitado em tabela com dados de usuário
+- Endpoint admin sem autenticação
+
+---
+
+## Exemplos de Uso
+
+```
+/vc-security
+/vc-security src/app/api
+/vc-security auth-module
+/vc-security --quick (apenas camadas 0-2)
+```

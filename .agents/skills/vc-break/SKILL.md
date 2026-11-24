@@ -1,0 +1,73 @@
+---
+name: vc-break
+description: Quebrar spec em tarefas atômicas (issues). Fase 2 do VibeDoCode. Cada página vira task de UI, cada comportamento vira task funcional.
+---
+
+# /vc-break — Quebrar Spec em Tarefas
+
+$ARGUMENTS
+
+---
+
+## 🎯 Objetivo
+
+Este comando inicia a **Fase 2** do workflow VibeDoCode: quebrar a spec em tarefas atômicas.
+
+---
+
+## Task
+
+### Passo 1: Ler a Spec
+
+Ler o arquivo indicado (default: `references/spec.md`).
+
+Se nenhum arquivo for indicado:
+```
+Procurar por references/spec.md
+Se não existir: "❌ Spec não encontrada. Rode /vc-spec primeiro."
+```
+
+### Passo 2: Ativar o Agente
+
+Use o agente `VC_task-breaker` com este contexto:
+
+```
+CONTEXTO:
+- Spec: $ARGUMENTS (ou references/spec.md)
+- Modo: BREAKDOWN DE TAREFAS
+- Saída: Pasta tasks/ com arquivos numerados
+
+REGRAS:
+1. Seguir o fluxo do VC_task-breaker
+2. Criar pasta tasks/ se não existir
+3. Cada task é um arquivo: tasks/NNN-nome.md
+4. Ordem: Setup → UI Protótipos → Funcionalidades → Integração
+5. Apresentar tabela resumo ao final
+```
+
+### Passo 3: Resultado
+
+```
+✅ Breakdown completo!
+
+📊 Resumo:
+- X tasks criadas na pasta tasks/
+- Ordem: Setup (N) → UI (N) → Behaviors (N) → Integração (N)
+
+📋 Tasks:
+| # | Nome | Tipo | Camada |
+|---|---|---|---|
+| 001 | Setup Database | setup | database |
+| 002 | ... | ... | ... |
+
+📌 Próximo passo: /vc-plan tasks/001-setup-database.md
+```
+
+---
+
+## Exemplos de Uso
+
+```
+/vc-break
+/vc-break references/spec.md
+```

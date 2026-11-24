@@ -1,0 +1,52 @@
+---
+name: vc-validate
+description: Validação final de qualidade contra as 5 dimensões VibeDoCode (Segurança, Anti-Duplicação, Arquitetura, Testes, Clean Code).
+---
+
+# /vc-validate — Validar Qualidade
+
+$ARGUMENTS
+
+---
+
+## 🎯 Objetivo
+
+Este comando é o "Check Final" do VibeDoCode, usando o `VC_quality-guard` para averiguar se tudo foi implementado com perfeição.
+
+---
+
+## Task
+
+### Passo 1: Contexto
+
+Se o usuário passou um número de PR, ou caminho de pasta, o escopo da verificação será isolado, por ex. `$ARGUMENTS`.
+Se vazio, o escopo será a aplicação inteira (foco nas pastas `/src`).
+
+### Passo 2: Ativar o Agente
+
+Use o agente `VC_quality-guard` com este contexto:
+
+```
+CONTEXTO:
+- Modo: AVALIAÇÃO DE QUALIDADE (QUALITY ASSURANCE)
+- Escopo da validação: $ARGUMENTS ou /src
+
+REGRAS:
+1. Realize TODOS os exames listados no documento do VC_quality-guard.
+2. Certifique-se de executar as procuras via ferramentas glob/grep.
+3. Se encontrar secrets (SUPABASE_KEY, etc) em "texto plano" dentro de src/, DÊ FALHA IMEDIATA NO RELATÓRIO!
+4. Imprima o formato oficial de Relatório de Qualidade.
+```
+
+### Passo 3: Avaliar Relatório
+
+Exiba ao usuário o Veredicto. Se estiver VERDE (Aprovado), a branch pode ser unida ou a task movida para finalizada. Se estiver VERMELHO, mostre exatamente os pontos críticos que o usuário deve arrumar.
+
+---
+
+## Exemplos de Uso
+
+```
+/vc-validate
+/vc-validate src/api/auth
+```
